@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base th:href="@{/}">
+    <meta charset="UTF-8">
+    <title>修改</title>
+
+    <script src="../static/js/jquery.js" th:src="@{js/jquery.js}"></script>
+    <style type="text/css">
+        form *{
+            margin: 3px 0;
+        }
+    </style>
+</head>
+<body>
+<center>
+    <form action="/admin/update" method="post" novalidate>
+        记录编号：<input id="flight_no" name="flight_no" th:value="${f.flight_no}" readonly="readonly"><br>
+        航班号：<input id="flight_number" name="flight_number" th:value="${f.flight_number}"><br>
+        航空公司：<input id="airline_company" name="airline_company" th:value="${f.airline_company}"><br>
+        始发地：<input id="from_city" name="from_city" th:value="${f.from_city}"><br>
+        目的地：<input id="to_city" name="to_city" th:value="${f.to_city}"><br>
+        经停：<input id="stopover" name="stopover" th:value="${f.stopover}"><br>
+        计划起飞时间：<input id="plan_takeoff_time" name="plan_takeoff_time" type="datetime-local" th:value="${f.plan_takeoff_time}"><br>
+        计划到达时间：<input id="plan_arrival_time" name="plan_arrival_time" type="datetime-local" th:value="${f.plan_arrival_time}"><br>
+        实际起飞时间：<input id="actual_takeoff_time" name="actual_takeoff_time" type="datetime-local" th:value="${f.actual_takeoff_time}"><br>
+        实际到达时间：<input id="actual_arrival_time" name="actual_arrival_time" type="datetime-local" th:value="${f.actual_arrival_time}"><br>
+        航站楼：<input id="terminal" name="terminal" th:value="${f.terminal}"><br>
+        登机口：<input id="gate" name="gate" th:value="${f.gate}"><br>
+        值机柜台：<input id="check_in_counter" name="check_in_counter" th:value="${f.check_in_counter}"><br>
+        <button>确定修改</button>
+    </form>
+</center>
+<script type="text/javascript">
+    $('input[type="datetime-local"]').change(function () {
+        //let datetime = $(this).val();
+        //let datetimeStrList = datetime.split("T");
+        //console.log(datetimeStrList)
+        //$(this).val(datetimeStrList[0] + " " + datetimeStrList[1]);
+        console.log($(this).val())
+    })
+</script>
+</body>
+</html>
