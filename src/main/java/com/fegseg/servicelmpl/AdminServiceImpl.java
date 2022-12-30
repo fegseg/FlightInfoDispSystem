@@ -23,4 +23,9 @@ public class AdminServiceImpl implements AdminService {
     public AdminBean checking(String username, String password) {
         return adminDao.checking(username, password);
     }
+
+    @Override
+    public AdminBean getById(int id) {
+        return adminDao.getById(id);
+    }
 }

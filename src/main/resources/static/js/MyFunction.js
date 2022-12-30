@@ -29,3 +29,23 @@ function getFlightCode(flightNumber){
     return flightNumber.slice(0,2);
 }
 
+
+function CheckUname() {
+    let uname_str = $('#username').val();
+    if(uname_str.trim() === ""){
+        $('.errtip-username-text').text("用户名不能为空！");
+        $('.errtip-username').show();
+    } else {
+        $('.errtip-username').hide();
+    }
+}
+function CheckPwd(){
+    let pwd_str = $('#password').val();
+    if(pwd_str.trim() === ""){
+        $('.errtip-password-text').text("密码不能为空！");
+        $('.errtip-password').show();
+    } else {
+        $('.errtip-password').hide();
+    }
+}
+

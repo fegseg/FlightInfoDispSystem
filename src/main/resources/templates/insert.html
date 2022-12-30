@@ -4,6 +4,7 @@
     <base th:href="@{/}">
     <meta charset="UTF-8">
     <title>添加</title>
+    <link rel="icon" th:href="@{img/flighticon.png}" href="../static/img/flighticon.png">
     <script src="../static/js/jquery.js" th:src="@{js/jquery.js}"></script>
     <style type="text/css">
         form *{
@@ -14,6 +15,8 @@
 <body>
     <center>
         <form action="/admin/insert" method="post">
+            管理员编号：<input id="admin_id" name="admin_id" th:value="${admin.id}" readonly="readonly"><br>
+            管理员：<input id="username" name="username" th:value="${admin.username}" readonly="readonly"><br>
             航班号：<input id="flight_number" name="flight_number"><br>
             航空公司：<input id="airline_company" name="airline_company"><br>
             始发地：<input id="from_city" name="from_city"><br>

@@ -4,10 +4,23 @@
     <base th:href="@{/}">
     <meta charset="UTF-8">
     <title>登陆成功</title>
+    <link rel="icon" th:href="@{img/flighticon.png}" href="../static/img/flighticon.png">
+    <style>
+        * {
+          margin: 0;
+        }
+        body {
+            height: 100vh;
+        }
+        div {
+            position: relative;
+            top: 45%;
+        }
+    </style>
 </head>
 <body>
-<center>
-  <a th:href="@{admin}">进入航班信息管理系统</a>
-</center>
+    <div>
+        <center><a th:href="@{admin}">进入航班信息管理系统</a></center>
+    </div>
 </body>
 </html>

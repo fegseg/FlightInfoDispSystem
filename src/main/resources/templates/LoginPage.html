@@ -4,12 +4,46 @@
     <base th:href="@{/}">
     <meta charset="UTF-8">
     <title>登录页面</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" th:href="@{css/loginPage.css}" href="../static/css/loginPage.css">
+    <link rel="icon" th:href="@{img/flighticon.png}" href="../static/img/flighticon.png">
+    <script th:src="@{js/jquery.js}" src="../static/js/jquery.js"></script>
+    <script th:src="@{js/MyFunction.js}" src="../static/js/MyFunction.js"></script>
 </head>
 <body>
-    <form action="/login/check" method="post">
-        username:<input name="username" type="text"><br>
-        password:<input name="password" type="password"><br>
-        <button>登录</button>
-    </form>
+    <img th:src="@{img/background-login.png}" src="../static/img/background-login.png" alt="" class="background-loginpage">
+    <div class="login-form-box">
+        <h1>密码登录</h1>
+        <form action="/login/check" method="post">
+            <div class="form-uanme">
+                <div class="errtip-username">
+                    <div class="errtip-arrow"></div>
+                    <div class="errtip-text-box"><div class="errtip-username-text"></div></div>
+                </div>
+                <input id="username" name="username" type="text" placeholder="您的用户名" oninput="CheckUname()">
+            </div>
+            <div class="form-pwd">
+                <div class="errtip-password">
+                    <div class="errtip-arrow"></div>
+                    <div class="errtip-text-box"><div class="errtip-password-text"></div></div>
+                </div>
+                <input id="password" name="password" type="password" placeholder="您的密码" oninput="CheckPwd()">
+            </div>
+            <div class="btn_submit">
+                <button type="submit">登录</button>
+            </div>
+        </form>
+        <div class="social-profiles">
+            <a><i class="fa fa-qq"></i></a>
+            <a><i class="fa fa-wechat"></i></a>
+            <a><i class="fa fa-weibo"></i></a>
+            <a><i class="fa fa-twitter"></i></a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('.btn_submit').click(function (){
+            $('form').submit();
+        })
+    </script>
 </body>
 </html>

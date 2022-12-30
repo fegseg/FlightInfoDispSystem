@@ -5,203 +5,164 @@
     <meta charset="UTF-8">
     <title>管理页面</title>
     <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.staticfile.org/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" type="text/css" th:href="@{css/homeStyle.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{css/flightInfoPage.css}">
-
-    <script th:src="@{js/jquery.js}"></script>
-    <script th:src="@{js/MyFunction.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{css/flightInfoPage.css}" href="../static/css/flightInfoPage.css">
+    <link rel="icon" th:href="@{img/flighticon.png}" href="../static/img/flighticon.png">
+    <script th:src="@{js/jquery.js}" src="../static/js/jquery.js"></script>
+    <script th:src="@{js/MyFunction.js}" src="../static/js/MyFunction.js"></script>
 </head>
-<body>
-<header class="header">
-    <div class="logo"><img th:src="@{img/flighticon.png}"></div>
-    <div class="nav">
-        <ul>
-            <li><a th:href="@{home}">首页</a></li>
-            <li><a th:href="@{flightInfo}">航班信息</a></li>
-        </ul>
-    </div>
-</header>
-<div>
-    <div class="content-background-img">
-        <img th:src="@{img/background1.jpg}">
-        <div class="text"><span>航班信息</span><br><h1>出发航班</h1></div>
-    </div>
-    <div class="search-box">
-        <div class="filter-block date">
-            <i class="icon ion-calendar"></i>
-            <div class="layui-input-block">
-                <select name="interest" id="selectDateData" aria-placeholder="select" lay-filter="airline-select">
-                </select>
+    <body>
+        <div>
+            <div class="admin-info-box">
+                <ul>
+                    <li><i th:text="'管理员编号：'+ ${admin.id}" id="admin-id">管理员编号：0</i></li>
+                    <li><i th:text="'管理员：'+ ${admin.username}">管理员：test</i></li>
+                    <li><a class="ctn-logout" th:href="@{logout}" href="index.html">登出</a></li>
+                </ul>
+            </div>
+            <div class="content-background-img">
+                <img th:src="@{img/background1.jpg}" src="../static/img/background1.jpg">
+                <div class="text"><span>航班信息</span><br><h1>出发航班</h1></div>
+            </div>
+            <div class="search-box">
+                <div class="filter-block date">
+                    <i class="icon ion-calendar"></i>
+                    <div class="layui-input-block">
+                        <select name="interest" id="selectDateData" aria-placeholder="select" lay-filter="airline-select">
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-block time">
+                    <i class="icon ion-clock"></i>
+                    <div class="layui-input-block">
+                        <select class="select" id="dayTimeSelect" name="currentTime" lay-filter="airline-select">
+                            <option value="12" selected="selected">All Time</option>
+                            <option value="0">00:00~01:59</option>
+                            <option value="1">02:00~03:59</option>
+                            <option value="2">04:00~05:59</option>
+                            <option value="3">06:00~07:59</option>
+                            <option value="4">08:00~09:59</option>
+                            <option value="5">10:00~11:59</option>
+                            <option value="6">12:00~13:59</option>
+                            <option value="7">14:00~15:59</option>
+                            <option value="8">16:00~17:59</option>
+                            <option value="9">18:00~19:59</option>
+                            <option value="10">20:00~21:59</option>
+                            <option value="11">22:00~23:59</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-block ser-title">
+                    <i class="icon ion-plane"></i>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder=" 请输入航班号/城市" class="layui-input">
+                    </div>
+                    <button type="button" class="layui-btn" onclick="searchSomeFlight()">搜索</button>
+                    <a class="admin-btn insert-btn" th:href="@{insert(admin_id=${admin.id})}">插入</a>
+                </div>
+            </div>
+            <div class="content-flight-info">
+                <div class="content-flight-table">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>计划/实际出发</th>
+                            <th>计划/实际到达</th>
+                            <th>始发地</th>
+                            <th>经停点/目的地</th>
+                            <th>航空公司/航班号</th>
+                            <th>航站楼</th>
+                            <th>值机柜台</th>
+                            <th>值机时间段</th>
+                            <th>登机口</th>
+                            <th>状态</th>
+                            <th colspan="2">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody class="loadingParam">
+                        <tr th:each="f :${f_list}">
+                            <th th:text="${#calendars.format(f.plan_takeoff_time, 'HH:mm')+'/'+#calendars.format(f.actual_takeoff_time, 'HH:mm')}"></th>
+                            <th th:text="${#calendars.format(f.plan_arrival_time, 'HH:mm')+'/'+#calendars.format(f.actual_arrival_time, 'HH:mm')}"></th>
+                            <th th:text="${f.from_city}"></th>
+                            <th th:switch="${f.stopover}">
+                                <span th:case="null" th:text="${f.to_city}"></span>
+                                <span th:case="*" th:text="${f.stopover + '/' + f.to_city}"></span>
+                            </th>
+                            <th><div>
+                                <img class="flight-company-icon" th:src="@{'img/'+${#strings.substring(f.flight_number, 0, 2)+'.png'}}"><span th:text="${f.flight_number}"></span>
+                            </div></th>
+                            <th th:text="${f.terminal}"></th>
+                            <th th:text="${f.check_in_counter}"></th>
+                            <th th:text="${f.checkTime}"></th>
+                            <th th:text="${f.gate}"></th>
+                            <th th:text="${f.setFlight_statu()}" style="display: none"></th>
+                            <th th:text="${f.flight_statu}"></th>
+                            <th><a class="admin-btn modify-btn" th:href="@{modify(flight_id=${f.flight_no}, admin_id=${admin.id})}">修改</a></th>
+                            <th><a class="admin-btn delete-btn" th:href="@{delete(id=${f.flight_no}, admin_id=${admin.id})}">删除</a></th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <div class="filter-block time">
-            <i class="icon ion-clock"></i>
-            <div class="layui-input-block">
-                <select class="select" id="dayTimeSelect" name="currentTime" lay-filter="airline-select">
-                    <option value="12" selected="selected">All Time</option>
-                    <option value="0">00:00~01:59</option>
-                    <option value="1">02:00~03:59</option>
-                    <option value="2">04:00~05:59</option>
-                    <option value="3">06:00~07:59</option>
-                    <option value="4">08:00~09:59</option>
-                    <option value="5">10:00~11:59</option>
-                    <option value="6">12:00~13:59</option>
-                    <option value="7">14:00~15:59</option>
-                    <option value="8">16:00~17:59</option>
-                    <option value="9">18:00~19:59</option>
-                    <option value="10">20:00~21:59</option>
-                    <option value="11">22:00~23:59</option>
-                </select>
-            </div>
-        </div>
-        <div class="filter-block ser-title">
-            <i class="icon ion-plane"></i>
-            <div class="layui-input-block">
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder=" 请输入航班号/城市" class="layui-input">
-                <button type="button" class="layui-btn" onclick="searchSomeFlight()">搜索</button>
-                <a th:href="@{insert}">插入</a>
-            </div>
-        </div>
-    </div>
-    <div class="content-flight-info">
-        <div class="content-flight-table">
-            <table>
-                <thead>
-                <tr>
-                    <th>计划/实际出发时间</th>
-                    <th>计划/实际到达时间</th>
-                    <th>始发地</th>
-                    <th>经停点/目的地</th>
-                    <th>航空公司/航班号</th>
-                    <th>航站楼</th>
-                    <th>值机柜台</th>
-                    <th>登机口</th>
-                    <th colspan="2">操作</th>
-                </tr>
-                </thead>
-                <tbody class="loadingParam">
-                <tr th:each="f :${f_list}">
-                    <th th:text="${#calendars.format(f.plan_takeoff_time, 'HH:mm')+'/'+#calendars.format(f.actual_takeoff_time, 'HH:mm')}"></th>
-                    <th th:text="${#calendars.format(f.plan_arrival_time, 'HH:mm')+'/'+#calendars.format(f.actual_arrival_time, 'HH:mm')}"></th>
-                    <th th:text="${f.from_city}">始发地</th>
-                    <th th:switch="${f.stopover}">
-                        <span th:case="null" th:text="${f.to_city}"></span>
-                        <span th:case="*" th:text="${f.stopover + '/' + f.to_city}"></span>
-                    </th>
-                    <th><div>
-                        <img th:src="@{'img/'+${#strings.substring(f.flight_number, 0, 2)+'.png'}}"><span th:text="${f.flight_number}"></span>
-                    </div></th>
-                    <th th:text="${f.terminal}"></th>
-                    <th th:text="${f.check_in_counter}"></th>
-                    <th th:text="${f.gate}"></th>
-                    <th><a th:href="@{modify(id=${f.flight_no})}">修改</a></th>
-                    <th><a th:href="@{delete(id=${f.flight_no})}">删除</a></th>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <a id="moreInfo" type="button"><span>显示更多</span></a>
-    </div>
-</div>
-<script type="text/javascript">
+        <script type="text/javascript">
 
+            let $interest = $('select[name="interest"]');
+            $interest.append("<option value=\"0\">" + getDate(-1)  + "</option>");
+            $interest.append("<option value=\"1\" selected=\"selected\">" + getDate(0) + "</option>" );
+            $interest.append("<option value=\"2\">" + getDate(1)  + "</option>");
 
-    let $interest = $('select[name="interest"]');
-    $interest.append("<option value=\"0\">" + getDate(-1)  + "</option>");
-    $interest.append("<option value=\"1\" selected=\"selected\">" + getDate(0) + "</option>" );
-    $interest.append("<option value=\"2\">" + getDate(1)  + "</option>");
+            let $tr = $(".loadingParam");
+            function searchSomeFlight() {
 
-    //$("#moreInfo").css("display", "block");
-    let $tr = $(".loadingParam");
-    let beforeFlag = 20;
-    let afterFlag = beforeFlag + 10;
+                let selectedDate = $interest.children("option:selected").text();
+                let selectedTime = $('select[name="currentTime"]').children("option:selected").text();
+                let keyWord = $('input[name="title"]').val();
 
-    $("#moreInfo").click(function (){
-        $.ajax({
-            type: "get",
-            url: "http://localhost:8080/flights/" + beforeFlag + "/" + afterFlag,
-            success: function (data){
-                for (let i = 0; i < afterFlag-beforeFlag; i++) {
-                    $tr.append("<tr><th>" + timeFormat(data[i]["plan_takeoff_time"]) + "/" + timeFormat(data[i]["actual_takeoff_time"]) + "</th>");
-                    $tr.append("<th>" + timeFormat(data[i]["plan_arrival_time"]) + "/" + timeFormat(data[i]["actual_arrival_time"]) + "</th>");
-                    $tr.append("<th>" + data[i]["from_city"] + "</th>");
+                const jsonData = {
+                    "keyWord": keyWord.length===0 ? "none":keyWord,
+                    "date": selectedDate,
+                    "time": selectedTime
+                };
 
-                    if (data[i]["stopover"] === null)
-                        $tr.append("<th>" + data[i]["to_city"] + "</th>");
-                    else
-                        $tr.append("<th>" + data[i]["stopover"] + "/" + data[i]["to_city"] + "</th>");
+                $tr.empty();
+                $.ajax({
+                    type: "post",
+                    url: "http://localhost:8080/flights/search/keyword",
+                    data: JSON.stringify(jsonData),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (data){
+                        let adminno = Number($('#admin-id').val().substring(6)) + 1;
+                        for (let i = 0; i < data.length; i++) {
+                            $tr.append("<tr>");
+                            $tr.append("<th>" + timeFormat(data[i]["plan_takeoff_time"]) + "/" + timeFormat(data[i]["actual_takeoff_time"]) + "</th>");
+                            $tr.append("<th>" + timeFormat(data[i]["plan_arrival_time"]) + "/" + timeFormat(data[i]["actual_arrival_time"]) + "</th>");
+                            $tr.append("<th>" + data[i]["from_city"] + "</th>");
 
+                            if (data[i]["stopover"] === null)
+                                $tr.append("<th>" + data[i]["to_city"] + "</th>");
+                            else
+                                $tr.append("<th>" + data[i]["stopover"] + "/" + data[i]["to_city"] + "</th>");
 
-                    $tr.append("<th><div><img src=\"img/" + getFlightCode(data[i]["flight_number"]) + ".png\"><span>" + data[i]["flight_number"] + "</span></div></th>");
-                    $tr.append("<th>" + data[i]["terminal"] + "</th>");
-                    $tr.append("<th>" + data[i]["check_in_counter"] + "</th>");
-                    $tr.append("<th>" + data[i]["checkTime"] + "</th>");
-                    $tr.append("<th>" + data[i]["gate"] + "</th>");
+                            $tr.append("<th><div><img class=\"flight-company-icon\" src=\"img/" + getFlightCode(data[i]["flight_number"]) + ".png\"><span>" + data[i]["flight_number"] + "</span></div></th>");
+                            $tr.append("<th>" + data[i]["terminal"] + "</th>");
+                            $tr.append("<th>" + data[i]["check_in_counter"] + "</th>");
+                            $tr.append("<th>" + data[i]["checkTime"] + "</th>");
+                            $tr.append("<th>" + data[i]["gate"] + "</th>");
 
-                    if (data[i]["flight_statu"] != null)
-                        $tr.append("<th>" + data[i]["flight_statu"] + "</th></tr>");
-                    else
-                        $tr.append("</tr>");
-                }
-                beforeFlag = afterFlag;
-                afterFlag += 10;
-            },
-            error: function () {
-                alert("服务器繁忙，请稍后重试！");
+                            if (data[i]["flight_statu"] != null)
+                                $tr.append("<th>" + data[i]["flight_statu"] + "</th>");
+                            $tr.append("<th><a class=\"admin-btn modify-btn\" href=\"modify?flight_id=" + data[i]["flight_no"] + "&admin_id=" + adminno + "\">修改</a></th>");
+                            $tr.append("<th><a class=\"admin-btn delete-btn\" href=\"delete?flight_id=" + data[i]["flight_no"] + "&admin_id=" + adminno + "\">删除</a></th>");
+                            $tr.append("</tr>");
+                            console.log(data)
+                        }
+                    },
+                    error: function () {
+                        alert("服务器繁忙，请稍后重试！");
+                    }
+                });
             }
-        })
-    });
-
-    function searchSomeFlight() {
-        beforeFlag = 0;
-        afterFlag = beforeFlag + 20;
-
-        let selectedDate = $interest.children("option:selected").text();
-        let selectedTime = $('select[name="currentTime"]').children("option:selected").text();
-        let keyWord = $('input[name="title"]').val();
-
-        const jsonData = {
-            "keyWord": keyWord.length===0 ? "none":keyWord,
-            "date": selectedDate,
-            "time": selectedTime
-        };
-
-        $tr.empty();
-        $.ajax({
-            type: "post",
-            url: "http://localhost:8080/flights/search/keyword",
-            data: JSON.stringify(jsonData),
-            dataType: "json",
-            contentType: "application/json",
-            success: function (data){
-                for (let i = 0; i < data.length; i++) {
-                    $tr.append("<tr><th>" + timeFormat(data[i]["plan_takeoff_time"]) + "/" + timeFormat(data[i]["actual_takeoff_time"]) + "</th>");
-                    $tr.append("<th>" + timeFormat(data[i]["plan_arrival_time"]) + "/" + timeFormat(data[i]["actual_arrival_time"]) + "</th>");
-                    $tr.append("<th>" + data[i]["from_city"] + "</th>");
-
-                    if (data[i]["stopover"] === null)
-                        $tr.append("<th>" + data[i]["to_city"] + "</th>");
-                    else
-                        $tr.append("<th>" + data[i]["stopover"] + "/" + data[i]["to_city"] + "</th>");
-
-                    $tr.append("<th><div><img src=\"img/" + getFlightCode(data[i]["flight_number"]) + ".png\"><span>" + data[i]["flight_number"] + "</span></div></th>");
-                    $tr.append("<th>" + data[i]["terminal"] + "</th>");
-                    $tr.append("<th>" + data[i]["check_in_counter"] + "</th>");
-                    $tr.append("<th>" + data[i]["checkTime"] + "</th>");
-                    $tr.append("<th>" + data[i]["gate"] + "</th>");
-
-                    if (data[i]["flight_statu"] != null)
-                        $tr.append("<th>" + data[i]["flight_statu"] + "</th></tr>");
-                    else
-                        $tr.append("</tr>");
-                }
-            },
-            error: function () {
-                alert("服务器繁忙，请稍后重试！");
-            }
-        });
-        $("#moreInfo").css("display", "none");
-    }
-</script>
-</body>
+        </script>
+    </body>
 </html>

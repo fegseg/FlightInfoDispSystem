@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>航班信息显示系统</title>
-
-    <link rel="stylesheet" type="text/css" th:href="@{css/homeStyle.css}">
-    <script type="text/javascript" th:src="@{js/jquery.js}"></script>
+    <link rel="icon" th:href="@{img/flighticon.png}" href="../static/img/flighticon.png">
+    <link rel="stylesheet" type="text/css" th:href="@{css/homeStyle.css}" href="../static/css/homeStyle.css">
+    <script type="text/javascript" th:src="@{js/jquery.js}" src="../static/js/jquery.js"></script>
 </head>
 <body>
     <header class="header">
-        <div class="logo"><img th:src="@{img/flighticon.png}"></div>
-        <div class="nav">
-            <ul>
-                <li><a th:href="@{home}">首页</a></li>
-                <li><a th:href="@{flightInfo}">航班信息</a></li>
-                <li><a href="">机场交通</a></li>
-                <li><a href="">旅客服务</a></li>
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li class="link-about"><a th:href="@{home}" href="index.html">首页</a></li>
+                <li class="link-about"><a th:href="@{flightInfo}" href="FlightPage.html">航班信息</a></li>
+                <li class="link-about"><a href="#">机场交通</a></li>
+                <li class="link-about"><a href="#">旅客服务</a></li>
+                <li><a class="ctn" th:href="@{login}" href="LoginPage.html">登录</a></li>
             </ul>
-        </div>
-        <div class="login"><a th:href="@{login}">登录</a></div>
+        </nav>
     </header>
+    <div class="background">
+        <img th:src="@{img/background_home.jpg}" src="../static/img/background_home.jpg" alt="#" class="background-home">
+    </div>
 </body>
 </html>

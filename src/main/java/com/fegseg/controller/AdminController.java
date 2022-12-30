@@ -28,11 +28,18 @@ public class AdminController {
 
     @RequestMapping(value = "/login/check", method = RequestMethod.POST)
     public String login(String username, String password, Model model){
+        System.out.println(username + ":" + password);
         AdminBean admin = adminService.checking(username, password);
         if (admin == null)  return "LoginFailed";
         model.addAttribute("admin", admin);
-        return "success";
+        //return "success";
+        return "forward:/admin";
 
+    }
+
+    @RequestMapping("/logout")
+    public String logout(){
+        return "index";
     }
 
     @RequestMapping("/admin")
@@ -50,7 +57,9 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/insert", method = RequestMethod.POST)
-    public String insertFlightInfo(FlightBean flightBean){
+    public String insertFlightInfo(FlightBean flightBean, int admin_id, Model model){
+        AdminBean admin = adminService.getById(admin_id);
+        model.addAttribute("admin", admin);
         System.out.println(flightBean.toString());
         boolean flag = flightService.insert(flightBean);
         if(flag) {
@@ -63,7 +72,9 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/update", method = RequestMethod.POST)
-    public String updateFlightInfo(FlightBean flightBean){
+    public String updateFlightInfo(FlightBean flightBean, int admin_id, Model model){
+        AdminBean admin = adminService.getById(admin_id);
+        model.addAttribute("admin", admin);
         boolean flag = flightService.update(flightBean);
         if (flag){
             System.out.println("200 ok");
@@ -75,7 +86,9 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String deleteFlightInfo(Integer id){
+    public String deleteFlightInfo(Integer id, int admin_id, Model model){
+        AdminBean admin = adminService.getById(admin_id);
+        model.addAttribute("admin", admin);
         boolean flag = flightService.delete(id);
         if (flag){
             System.out.println("id=" + id + " 200 ok");

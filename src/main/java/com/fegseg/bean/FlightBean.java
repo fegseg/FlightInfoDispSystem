@@ -58,9 +58,7 @@ public class FlightBean {
         return from + "-" + to;
     }
 
-    public void setFlight_statu(String flight_statu) {
-        this.flight_statu = flight_statu;
-    }
+
 
     public void setCheckTime() {
         checkTime = calCheckTime();
@@ -177,7 +175,9 @@ public class FlightBean {
     public String getFlight_statu() {
         return flight_statu;
     }
-
+    public void setFlight_statu(String flight_statu) {
+        this.flight_statu = flight_statu;
+    }
     public void setFlight_statu() {
         if (actual_arrival_time != null)
             if((actual_arrival_time.getTime() - plan_arrival_time.getTime()) > 1000*60*15)

@@ -4,6 +4,7 @@
     <base th:href="@{/}">
     <meta charset="UTF-8">
     <title>修改</title>
+    <link rel="icon" th:href="@{img/flighticon.png}" href="../static/img/flighticon.png">
 
     <script src="../static/js/jquery.js" th:src="@{js/jquery.js}"></script>
     <style type="text/css">
@@ -15,6 +16,8 @@
 <body>
 <center>
     <form action="/admin/update" method="post" novalidate>
+        管理员编号：<input id="admin_id" name="admin_id" th:value="${admin.id}" readonly="readonly"><br>
+        管理员：<input id="username" name="username" th:value="${admin.username}" readonly="readonly"><br>
         记录编号：<input id="flight_no" name="flight_no" th:value="${f.flight_no}" readonly="readonly"><br>
         航班号：<input id="flight_number" name="flight_number" th:value="${f.flight_number}"><br>
         航空公司：<input id="airline_company" name="airline_company" th:value="${f.airline_company}"><br>

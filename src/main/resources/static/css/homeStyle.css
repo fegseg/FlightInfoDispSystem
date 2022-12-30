@@ -1,43 +1,76 @@
-.header{
+* {
+    margin: 0;
+    font-family: 'YouYuan';
+}
+header {
     z-index: 1000;
     position: absolute;
     left: 0;
     top: 0;
-    font-size: 14px;
+    font-size: 18px;
     width: 100%;
     height: 100px;
     transition: all 0.3s;
     display: inline-block;
-    background: rgb(43, 43, 43);
-}
-a{
-    text-decoration: none;
-    color: darkgray;
+    background: white;
 }
 
+.navbar {
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    padding: 10px 50px;
+    align-items: center;
+}
+.navbar ul{
+    flex: 1;
+    position: absolute;
+    top: 40px;
+    left: 30%;
+}
+
+.navbar ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 20px;
+}
+.link-about:hover {
+    font-size: 24px;
+    color: black;
+}
+
+.ctn{
+    padding: 10px 20px;
+    background: linear-gradient(to bottom right, rgb(168, 102, 176),rgb(176, 170, 170, 0.5));;
+    border-radius: 50px;
+}
+.ctn:hover{
+    font-size: 18px;
+    background: linear-gradient(to bottom right, rgb(176, 170, 170, 0.5),rgb(168, 102, 176));
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+a:hover {
+    color: gray;
+}
 li{
     list-style: none;
 }
-
 .header *{
     display: inline-block;
     text-align: center;
     /*border: black 1px solid;*/
 }
-.header div{
-    float: left;
+.background {
+    position: relative;
+    top: 100px;
 }
-.logo{
-    width: 30%;
-    padding: 5px 5px;
-}
-.nav{
-    width: 40%;
-    font-size: 24px;
-    margin: 10px 10px;
-}
-.login{
-    width: 20%;
-    margin: 40px 0px;
-    font-size: 10px;
+
+background-home {
+    width: 100%;
 }

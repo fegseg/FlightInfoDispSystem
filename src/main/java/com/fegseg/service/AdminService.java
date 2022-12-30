@@ -9,4 +9,6 @@ public interface AdminService {
     public List<AdminBean> getAll();
 
     public AdminBean checking(String username, String password);
+
+    public AdminBean getById(int id);
 }
