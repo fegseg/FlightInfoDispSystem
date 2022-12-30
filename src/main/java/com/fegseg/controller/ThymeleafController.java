@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -27,7 +29,10 @@ public class ThymeleafController {
 
     @RequestMapping("/flightInfo")
     public String flightInfoPage(Model model){
-        List<FlightBean> flightBeans = flightService.getSome(0, 20);//flightService.searchTime(today+" 00:00:00", today+" 23:59:59");
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String today = date.format(formatter);
+        List<FlightBean> flightBeans = flightService.searchTime(today+" 00:00:00", today+" 23:59:59");
         if(flightBeans != null){
             model.addAttribute("f_list", flightBeans);
         }

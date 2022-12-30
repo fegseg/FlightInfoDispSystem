@@ -101,7 +101,6 @@
                 </tbody>
             </table>
         </div>
-        <center><a id="moreInfo" type="button"><span style="color: #A31B50">显示更多</span></a></center>
     </div>
     </div>
     <script type="text/javascript">
@@ -112,49 +111,8 @@
         $interest.append("<option value=\"2\">" + getDate(1)  + "</option>");
 
         let $tr = $(".loadingParam");
-        let beforeFlag = 20;
-        let afterFlag = beforeFlag + 10;
-
-        $("#moreInfo").click(function (){
-            $.ajax({
-                type: "get",
-                url: "http://localhost:8080/flights/" + beforeFlag + "/" + afterFlag,
-                success: function (data){
-                    for (let i = 0; i < afterFlag-beforeFlag; i++) {
-                        $tr.append("<tr>");
-                        $tr.append("<th>" + timeFormat(data[i]["plan_takeoff_time"]) + "/" + timeFormat(data[i]["actual_takeoff_time"]) + "</th>");
-                        $tr.append("<th>" + timeFormat(data[i]["plan_arrival_time"]) + "/" + timeFormat(data[i]["actual_arrival_time"]) + "</th>");
-                        $tr.append("<th>" + data[i]["from_city"] + "</th>");
-
-                        if (data[i]["stopover"] === null)
-                            $tr.append("<th>" + data[i]["to_city"] + "</th>");
-                        else
-                            $tr.append("<th>" + data[i]["stopover"] + "/" + data[i]["to_city"] + "</th>");
-
-
-                        $tr.append("<th><div><img class=\"flight-company-icon\" src=\"img/" + getFlightCode(data[i]["flight_number"]) + ".png\"><span>" + data[i]["flight_number"] + "</span></div></th>");
-                        $tr.append("<th>" + data[i]["terminal"] + "</th>");
-                        $tr.append("<th>" + data[i]["check_in_counter"] + "</th>");
-                        $tr.append("<th>" + data[i]["checkTime"] + "</th>");
-                        $tr.append("<th>" + data[i]["gate"] + "</th>");
-
-                        if (data[i]["flight_statu"] != null)
-                            $tr.append("<th>" + data[i]["flight_statu"] + "</th>");
-
-                        $tr.append("</tr>");
-                    }
-                    beforeFlag = afterFlag;
-                    afterFlag += 10;
-                },
-                error: function () {
-                    alert("服务器繁忙，请稍后重试！");
-                }
-            })
-        });
 
         function searchSomeFlight() {
-            beforeFlag = 0;
-            afterFlag = beforeFlag + 20;
 
             let selectedDate = $interest.children("option:selected").text();
             let selectedTime = $('select[name="currentTime"]').children("option:selected").text();
@@ -201,8 +159,12 @@
                     alert("服务器繁忙，请稍后重试！");
                 }
             });
-            $("#moreInfo").css("display", "none");
         }
+
+
+        setInterval(function () {
+            searchSomeFlight();
+        }, 1000*60);
     </script>
 </body>
 </html>
