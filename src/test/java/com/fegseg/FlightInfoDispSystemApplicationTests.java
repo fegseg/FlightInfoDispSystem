@@ -22,11 +22,7 @@ class FlightInfoDispSystemApplicationTests {
 
     @Test
     void contextLoads() {
-        FlightBean flightBean = flightService.getById(1);
-        System.out.println(flightBean.toString());
-
-        AdminBean ad = adminService.checking("root", "123456");
-        System.out.println(ad.toString());
+        flightService.update();
     }
 
 }

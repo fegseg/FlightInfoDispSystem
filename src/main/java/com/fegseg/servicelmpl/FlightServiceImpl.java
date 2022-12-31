@@ -6,6 +6,8 @@ import com.fegseg.service.FlightService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -30,66 +32,43 @@ public class FlightServiceImpl implements FlightService {
         return flightDao.delete(id) > 0;
     }
 
-    /*@Override
-    public boolean update() {
-
-        List<FlightBean> flights = this.getAll();
-        Random random = new Random();
-        for (FlightBean flight:flights) {
-            int flight_no = flight.getFlight_no();
-            int s = random.nextInt(8999) + 1000;
-            switch (flight.getAirline_company()) {
-                case "四川航空":
-                    flightDao.update(flight_no, "3U"+String.valueOf(s));
-                    break;
-                case "深圳航空":
-                    flightDao.update(flight_no, "ZH"+String.valueOf(s));
-                    break;
-                case "青岛航空":
-                    flightDao.update(flight_no, "QW"+String.valueOf(s));
-                    break;
-                case "福州航空":
-                    flightDao.update(flight_no, "FU"+String.valueOf(s));
-                    break;
-                case "昆明航空":
-                    flightDao.update(flight_no, "KY"+String.valueOf(s));
-                    break;
-                case "中国国际航空":
-                    flightDao.update(flight_no, "CA"+String.valueOf(s));
-                    break;
-                case "南方航空":
-                    flightDao.update(flight_no, "CZ"+String.valueOf(s));
-                    break;
-                case "东方航空":
-                    flightDao.update(flight_no, "MU"+String.valueOf(s));
-                    break;
-                case "海南航空":
-                    flightDao.update(flight_no, "HU"+String.valueOf(s));
-                    break;
-                case "山东航空":
-                    flightDao.update(flight_no, "SC"+String.valueOf(s));
-                    break;
-                case "厦门航空":
-                    flightDao.update(flight_no, "MF"+String.valueOf(s));
-                    break;
-                case "上海航空":
-                    flightDao.update(flight_no, "FM"+String.valueOf(s));
-                    break;
-                case "幸福航空":
-                    flightDao.update(flight_no, "JA"+String.valueOf(s));
-                    break;
-                case "吉祥航空":
-                    flightDao.update(flight_no, "HO"+String.valueOf(s));
-                    break;
-                case "春秋航空":
-                    flightDao.update(flight_no, "9C"+String.valueOf(s));
-                    break;
-                default:
-                    break;
-            }
-        }
-        return true;
-    }*/
+//    @Override
+//    public boolean update() {
+//
+//        List<FlightBean> flights = this.getAll();
+//        Random random = new Random();
+//        for (FlightBean flight:flights) {
+//            long time = new Date().getTime();
+//            long l = random.nextInt(1000*60*60*24) + 1000*60*60*3;
+//            int i = random.nextInt(2);
+//
+//            long suboff = random.nextInt(1000*60*30+1);
+//            long suboff2 = random.nextInt(1000*60*20+1);
+//            long subarr = random.nextInt(1000*60*60*4+1) + 1000*60*60*2;
+//            long planTakeOff;
+//            long actualTakeOff;
+//            long planArrival;
+//            long actualArrival;
+//            if (i==1) {
+//                planTakeOff = time - l;
+//                actualTakeOff = planTakeOff + suboff;
+//                planArrival = planTakeOff + subarr;
+//                actualArrival = actualTakeOff + subarr +suboff2;
+//            }
+//            else {
+//                planTakeOff = time + l;
+//                actualTakeOff = planTakeOff - suboff;
+//                planArrival = planTakeOff + subarr;
+//                actualArrival = actualTakeOff + subarr - suboff2;
+//            }
+//            flight.setPlan_takeoff_time(new Timestamp(planTakeOff));
+//            flight.setActual_takeoff_time(new Timestamp(actualTakeOff));
+//            flight.setPlan_arrival_time(new Timestamp(planArrival));
+//            flight.setActual_arrival_time(new Timestamp(actualArrival));
+//            flightDao.update(flight);
+//        }
+//        return true;
+//    }
 
     @Override
     public List<FlightBean> getSome(Integer from, Integer to) {

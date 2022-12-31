@@ -12,6 +12,8 @@ public interface FlightService {
 
     public boolean delete(Integer id);
 
+    // boolean update();
+
     public  List<FlightBean> getSome(Integer from, Integer to);
     public List<FlightBean> getAll();
 
