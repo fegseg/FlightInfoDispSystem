@@ -220,6 +220,9 @@ table thead {
     color: #A31B50;
     border-bottom: 1px solid grey;
 }
+.op-column {
+    min-width: 200px;
+}
 .loadingParam {
     font-weight: normal;
 }
